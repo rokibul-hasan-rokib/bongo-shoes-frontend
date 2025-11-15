@@ -146,14 +146,16 @@ console.log("Payload",payload)
 
               <div className="relative mb-4 w-full">
                 <MapPin className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
-                <input
-                  type="text"
+                <select
                   name="city"
                   value={formData.city}
                   onChange={handleInputChange}
-                  placeholder="শহর (প্রয়োজনীয়)"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-gray-50/50"
-                />
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-gray-50/50 appearance-none"
+                >
+                  <option value="">শহর নির্বাচন করুন (প্রয়োজনীয়)</option>
+                  <option value="Dhaka">ঢাকার ভিতরে</option>
+                  <option value="Other">ঢাকার বাইরে</option>
+                </select>
               </div>
 
               <div className="relative mb-4 w-full">
