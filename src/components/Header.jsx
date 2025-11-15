@@ -49,8 +49,12 @@ const Header = () => {
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <Link to="/" className="text-2xl font-bold text-gray-900 ml-2 md:ml-0">
-              <span className="text-red-600">BONGO</span><span className="text-blue-600">Shoes</span>
+            <Link to="/" className="flex items-center ml-2 md:ml-0">
+              <img
+                src="/bongo_shoes.png"
+                alt="Bongo Shoes"
+                className="h-8 w-auto"
+              />
             </Link>
           </div>
 
