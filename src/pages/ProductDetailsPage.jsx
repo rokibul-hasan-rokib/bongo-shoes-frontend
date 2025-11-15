@@ -33,8 +33,15 @@ const ProductDetailsPage = () => {
       try {
         const data = await getProductBySlug(slug);
         setProduct(data);
-        const primary = data.images?.find((img) => img.is_primary)?.image;
-        setSelectedImage(primary || data.images?.[0]?.image || null);
+        const primaryImg = data.images?.find((img) => img.is_primary) || data.images?.[0];
+        setSelectedImage(primaryImg?.image || null);
+        if (primaryImg?.color) {
+          const initialColors = [...new Map(data.variants.map((v) => [v.color.id, v.color])).values()];
+          const matchingColor = initialColors.find(color => color.name === primaryImg.color);
+          if (matchingColor) {
+            setSelectedColor(matchingColor);
+          }
+        }
 
         if (data.category_slug) {
           const related = await getProductsByCategory(data.category_slug, slug);
@@ -191,7 +198,15 @@ const handleBuyNow = async () => {
               {product.images.map((img, i) => (
                 <button
                   key={i}
-                  onClick={() => setSelectedImage(img.image)}
+                  onClick={() => {
+                    setSelectedImage(img.image);
+                    if (img.color) {
+                      const matchingColor = variantColors.find(color => color.name === img.color);
+                      if (matchingColor) {
+                        setSelectedColor(matchingColor);
+                      }
+                    }
+                  }}
                   className={`block h-24 border-2 rounded-lg overflow-hidden transition duration-200 ${
                     selectedImage === img.image
                       ? "border-indigo-600 ring-2 ring-indigo-300"
@@ -279,22 +294,32 @@ const handleBuyNow = async () => {
                   {selectedColor?.name || "--"}
                 </span>
               </span>
-              <div className="flex flex-wrap gap-3">
+              <div className="grid grid-cols-4 gap-4">
                 {variantColors.map((color) => (
                   <button
                     key={color.id}
                     onClick={() => setSelectedColor(color)}
-                    className={`w-8 h-8 rounded-full border-2 p-0.5 transition duration-150 ease-in-out ${
+                    className={`flex flex-col items-center p-2 rounded-lg transition duration-150 ease-in-out ${
                       selectedColor?.id === color.id
-                        ? "border-indigo-600 ring-2 ring-indigo-300"
-                        : "border-gray-200 hover:border-gray-400"
+                        ? "ring-2 ring-indigo-500"
+                        : "hover:bg-gray-100"
                     }`}
-                    title={color.name}
                   >
                     <div
-                      className="w-full h-full rounded-full"
+                      className={`w-8 h-8 rounded-full border mb-2 ${
+                        selectedColor?.id === color.id
+                          ? "ring-2 ring-indigo-300"
+                          : "border-gray-300"
+                      }`}
                       style={{ backgroundColor: color.hex_code }}
                     ></div>
+                    <span className="text-xs text-gray-700 text-center font-medium">
+                      {color.name === 'Black' ? 'কালো' :
+                       color.name === 'Chocolate' ? 'চকোলেট' :
+                       color.name === 'Brown' ? 'ব্রাউন' :
+                       color.name === 'Walnut Brown' ? 'ওয়ালনাট ব্রাউন' :
+                       color.name}
+                    </span>
                   </button>
                 ))}
               </div>
