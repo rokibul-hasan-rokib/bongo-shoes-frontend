@@ -49,9 +49,9 @@ const Header = () => {
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <Link to="/" className="flex items-center ml-2 md:ml-0">
+            <Link to="/" className="flex items-center ml-2 md:ml-0 me-5">
               <img
-                src="/bongo_shoes.png"
+                src="/bongo_shoes_Logo_black.png"
                 alt="Bongo Shoes"
                 className="h-8 w-auto"
               />
