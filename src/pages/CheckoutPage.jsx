@@ -20,6 +20,7 @@ const CheckoutPage = () => {
 
     const [paymentMethod, setPaymentMethod] = useState('cod');
     const [shippingCharge, setShippingCharge] = useState(80);
+    const [subDistrict, setSubDistrict] = useState('');
 
     useEffect(() => {
         const fetchAddress = async () => {
@@ -41,7 +42,17 @@ const CheckoutPage = () => {
 
     const handleInputChange = e => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-        if (e.target.name === 'city') setShippingCharge(e.target.value.toLowerCase() === 'dhaka' ? 80 : 130);
+        if (e.target.name === 'city') {
+            if (e.target.value.toLowerCase() === 'dhaka') {
+                setShippingCharge(80);
+                setSubDistrict('');
+            } else if (e.target.value.toLowerCase() === 'sub-dhaka') {
+                setShippingCharge(100);
+            } else {
+                setShippingCharge(130);
+                setSubDistrict('');
+            }
+        }
     };
 
     const items = cart?.items?.map(i => {
@@ -162,8 +173,9 @@ const CheckoutPage = () => {
                                     className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-gray-50/50 appearance-none"
                                 >
                                     <option value="">শহর নির্বাচন করুন *</option>
-                                    <option value="Dhaka">ঢাকার ভিতরে</option>
-                                    <option value="Other">ঢাকার বাইরে</option>
+                                    <option value="Dhaka">ঢাকার ভিতরে (৳৮০)</option>
+                                    <option value="Sub-Dhaka">সাব-ঢাকা (৳১০০)</option>
+                                    <option value="Other">ঢাকার বাইরে (৳১৩০)</option>
                                 </select>
                             </div>
                             <div className="relative mb-4">
