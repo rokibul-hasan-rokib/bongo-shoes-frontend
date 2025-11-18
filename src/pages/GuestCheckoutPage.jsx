@@ -162,9 +162,9 @@ console.log("Payload",payload)
                   className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-gray-50/50 appearance-none"
                 >
                   <option value="">শহর নির্বাচন করুন (প্রয়োজনীয়)</option>
-                  <option value="Dhaka">ঢাকার ভিতরে (৳৮০)</option>
-                  <option value="Sub-Dhaka">সাব-ঢাকা (৳১০০)</option>
-                  <option value="Other">ঢাকার বাইরে (৳১৩০)</option>
+                  <option value="dhaka">ঢাকার ভিতরে (৳৮০)</option>
+                  <option value="sub-dhaka">সাব-ঢাকা (৳১০০)</option>
+                  <option value="other">ঢাকার বাইরে (৳১৩০)</option>
                 </select>
               </div>
 
