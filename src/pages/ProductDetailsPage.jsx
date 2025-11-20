@@ -30,7 +30,11 @@ const ProductDetailsPage = () => {
   useEffect(() => {
     if (product) {
       const currentUrl = window.location.href.split('?')[0]; // Remove any query params
-      const productImage = product.images?.find(img => img.is_primary)?.image || product.images?.[0]?.image || '';
+      const imageUrl = product.images?.find(img => img.is_primary)?.image || product.images?.[0]?.image || '';
+      // Ensure full URL for Facebook
+      const productImage = imageUrl.startsWith('http') 
+        ? imageUrl 
+        : `https://bongoshoes.quantumcraft.cloud${imageUrl}`;
       const productTitle = `${product.name} | Bongo Shoes`;
       const productDescription = product.description?.substring(0, 160) || 'Premium quality shoes at Bongo Shoes';
 

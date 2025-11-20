@@ -9,13 +9,19 @@ const ProductCard = ({ product }) => {
   const stockText = isInStock ? 'In Stock' : 'Out of Stock';
   const stockClass = isInStock ? 'bg-green-600 text-white' : 'bg-red-600 text-white';
 
-  const primaryImage =
-    product.images?.find((img) => img.is_primary)?.image ||
-    'https://placehold.co/400x300/e5e7eb/4b5563?text=No+Image';
+  // Helper to ensure full URL
+  const getFullImageUrl = (url) => {
+    if (!url) return 'https://placehold.co/400x300/e5e7eb/4b5563?text=No+Image';
+    return url.startsWith('http') ? url : `https://bongoshoes.quantumcraft.cloud${url}`;
+  };
 
-  const secondaryImage =
-    product.images?.find((img) => !img.is_primary)?.image ||
-    'https://placehold.co/400x300/d1d5db/6b7280?text=Alternate+Image';
+  const primaryImage = getFullImageUrl(
+    product.images?.find((img) => img.is_primary)?.image
+  );
+
+  const secondaryImage = getFullImageUrl(
+    product.images?.find((img) => !img.is_primary)?.image
+  ) || 'https://placehold.co/400x300/d1d5db/6b7280?text=Alternate+Image';
 
   const goToDetails = () => {
     navigate(`/product/details/${product.slug}`);

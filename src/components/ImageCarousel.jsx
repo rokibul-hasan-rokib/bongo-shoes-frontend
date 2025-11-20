@@ -66,7 +66,7 @@ const ImageCarousel = ({ interval = 5000 }) => {
             >
               {!isBroken ? (
                 <img
-                  src={item.image}
+                  src={item.image.startsWith('http') ? item.image : `https://bongoshoes.quantumcraft.cloud${item.image}`}
                   alt={item.alt}
                   className="w-full h-full object-cover"
                   onError={() =>
