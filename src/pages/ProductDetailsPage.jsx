@@ -26,6 +26,36 @@ const ProductDetailsPage = () => {
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
+  // Update meta tags for Facebook/social sharing
+  useEffect(() => {
+    if (product) {
+      const currentUrl = window.location.href.split('?')[0]; // Remove any query params
+      const productImage = product.images?.find(img => img.is_primary)?.image || product.images?.[0]?.image || '';
+      const productTitle = `${product.name} | Bongo Shoes`;
+      const productDescription = product.description?.substring(0, 160) || 'Premium quality shoes at Bongo Shoes';
+
+      // Update or create meta tags
+      const updateMetaTag = (property, content) => {
+        let element = document.querySelector(`meta[property="${property}"]`);
+        if (!element) {
+          element = document.createElement('meta');
+          element.setAttribute('property', property);
+          document.head.appendChild(element);
+        }
+        element.setAttribute('content', content);
+      };
+
+      updateMetaTag('og:title', productTitle);
+      updateMetaTag('og:description', productDescription);
+      updateMetaTag('og:image', productImage);
+      updateMetaTag('og:url', currentUrl);
+      updateMetaTag('og:type', 'product');
+
+      // Update page title
+      document.title = productTitle;
+    }
+  }, [product]);
+
   // Fetch product
   useEffect(() => {
     const fetchProduct = async () => {

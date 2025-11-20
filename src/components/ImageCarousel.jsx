@@ -69,7 +69,6 @@ const ImageCarousel = ({ interval = 5000 }) => {
                   src={item.image}
                   alt={item.alt}
                   className="w-full h-full object-cover"
-                  loading="lazy"
                   onError={() =>
                     setBrokenImages((prev) => ({ ...prev, [item.id]: true }))
                   }

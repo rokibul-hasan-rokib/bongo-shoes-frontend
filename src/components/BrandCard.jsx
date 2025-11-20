@@ -11,7 +11,6 @@ const BrandCard = ({ logo, name, slug }) => {
         src={logo}
         alt={name}
         className="max-h-full max-w-full object-contain"
-        loading="lazy"
       />
     </Link>
   );
