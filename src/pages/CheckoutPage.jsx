@@ -245,7 +245,7 @@ const CheckoutPage = () => {
                                 onClick={handleCompleteOrder} 
                                 className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl hover:from-indigo-700 hover:to-purple-700 mt-6 text-lg font-bold shadow-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] focus:ring-4 focus:ring-indigo-300 focus:outline-none"
                             >
-                                অর্ডার সম্পন্ন করুন: ৳{total.toLocaleString()}
+                                অর্ডার কনফার্ম করুন: ৳{total.toLocaleString()}
                             </button>
                         </div>
                     </div>

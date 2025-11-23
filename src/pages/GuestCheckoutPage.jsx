@@ -243,13 +243,10 @@ console.log("Payload",payload)
                 onClick={handlePlaceOrder}
                 className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 sm:py-4 rounded-xl hover:from-indigo-700 hover:to-purple-700 text-lg font-bold shadow-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] focus:ring-4 focus:ring-indigo-300 focus:outline-none"
               >
-                অর্ডার করুন: ৳{total.toLocaleString()}
+                অর্ডার কনফার্ম করুন: ৳{total.toLocaleString()}
               </button>
-            </div>
-          </div>
 
-          {/* RIGHT SIDE */}
-          <div className="lg:col-span-1 w-full">
+            </div>
             <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg lg:sticky lg:top-8 border border-gray-100 w-full">
               <h2 className="text-xl font-bold mb-4 pb-3 border-b border-gray-200 text-gray-900">অর্ডার সংক্ষিপ্ত</h2>
               <div className="flex items-start gap-4 mb-4">
