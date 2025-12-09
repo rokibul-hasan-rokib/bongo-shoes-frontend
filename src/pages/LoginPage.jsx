@@ -6,7 +6,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai"; // ✅ React Icon sp
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false); // ✅ loading state
+  const [loading, setLoading] = useState(false); 
   const { handleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
 
