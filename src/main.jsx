@@ -20,7 +20,7 @@ import OrderDetailsPage from './pages/OrderDetailsPage.jsx';
 import WishlistPage from './pages/WishlistPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import SignupPage from './pages/SignupPage.jsx';
-import GuestCheckoutPage from './pages/GuestCheckOutpage.jsx';
+import GuestCheckoutPage from './pages/GuestCheckoutPage.jsx';
 import OrderConfirmationMessage from './components/OrderConfirmationMessage.jsx';
 
 

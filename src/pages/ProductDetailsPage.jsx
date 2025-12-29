@@ -25,6 +25,7 @@ const ProductDetailsPage = () => {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [selectionError, setSelectionError] = useState("");
 
   // Update meta tags for Facebook/social sharing
   useEffect(() => {
@@ -121,6 +122,23 @@ const ProductDetailsPage = () => {
     if (newQty >= 1 && newQty <= stock) setQuantity(newQty);
   };
 
+  const variantColors = product?.variants
+    ? [...new Map(product.variants.map((v) => [v.color.id, v.color])).values()]
+    : [];
+  const variantSizes = product?.variants
+    ? [...new Map(product.variants.map((v) => [v.size.id, v.size])).values()]
+    : [];
+  const requiresColorSelection = variantColors.length > 0;
+  const requiresSizeSelection = variantSizes.length > 0;
+
+  useEffect(() => {
+    const colorReady = !requiresColorSelection || selectedColor;
+    const sizeReady = !requiresSizeSelection || selectedSize;
+    if (colorReady && sizeReady) {
+      setSelectionError("");
+    }
+  }, [selectedColor, selectedSize, requiresColorSelection, requiresSizeSelection]);
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
@@ -157,15 +175,26 @@ const ProductDetailsPage = () => {
     ? "text-green-600 border-green-200 bg-green-50"
     : "text-red-600 border-red-200 bg-red-50";
 
-  const variantColors = [
-    ...new Map(product.variants.map((v) => [v.color.id, v.color])).values(),
-  ];
-  const variantSizes = [
-    ...new Map(product.variants.map((v) => [v.size.id, v.size])).values(),
-  ];
+  const ensureSelections = () => {
+    if (requiresColorSelection && !selectedColor) {
+      const message = "অনুগ্রহ করে প্রথমে রঙ নির্বাচন করুন";
+      setSelectionError(message);
+      toast.error("Please select a color first.");
+      return false;
+    }
+    if (requiresSizeSelection && !selectedSize) {
+      const message = "অনুগ্রহ করে প্রথমে সাইজ নির্বাচন করুন";
+      setSelectionError(message);
+      toast.error("Please select a size first.");
+      return false;
+    }
+    setSelectionError("");
+    return true;
+  };
 
   // ✅ Handle Add & Buy Now with Toast
   const handleAdd = () => {
+    if (!ensureSelections()) return;
     if (!isAuthenticated) {
     toast.error("You must login first!");
     navigate("/login"); 
@@ -180,6 +209,7 @@ const d_price=product.discount_price
 const id = product.id
 console.log(id)
 const handleBuyNow = async () => {
+  if (!ensureSelections()) return;
   let targetProduct = selectedVariant 
     ? { ...selectedVariant, productId: product.id } 
     : product;
@@ -369,6 +399,12 @@ const handleBuyNow = async () => {
           </>
         )}
 
+
+          {selectionError && (
+            <div className="border border-red-200 bg-red-50 text-red-600 text-sm font-medium px-4 py-3 rounded-lg">
+              {selectionError}
+            </div>
+          )}
 
           {/* Quantity */}
           <div className="flex items-center gap-4">
