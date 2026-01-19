@@ -20,8 +20,12 @@ const HomePage = () => {
    useEffect(() => {
       const fetchData = async () => {
         try {
-          SetNewArrivals(await getNewArrivals());
-          setFeaturedProduct(await getFeaturedProducts());
+          const [newArrivalsData, featuredProductsData] = await Promise.all([
+            getNewArrivals(),
+            getFeaturedProducts()
+          ]);
+          SetNewArrivals(newArrivalsData);
+          setFeaturedProduct(featuredProductsData);
         } finally {
           setLoading(false);
         }

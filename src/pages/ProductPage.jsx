@@ -9,6 +9,7 @@ const ProductPage = () => {
   const [categories, setCategories] = useState([]);
   // const [brands, setBrands] = useState([]);
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [priceRange, setPriceRange] = useState([0, 5000]);
@@ -34,23 +35,28 @@ const ProductPage = () => {
   // Fetch Products whenever filter, page or search changes
   useEffect(() => {
     const fetchProducts = async () => {
-      const params = {};
+      setLoading(true);
+      try {
+        const params = {};
 
-      if (selectedCategory) params["category__slug"] = selectedCategory;
-      if (selectedBrand) params["brand__slug"] = selectedBrand;
-      if (priceRange[0] !== null) params["price__gte"] = priceRange[0];
-      if (priceRange[1] !== null) params["price__lte"] = priceRange[1];
-      if (searchQuery) params["search"] = searchQuery; // ✅ for header search
+        if (selectedCategory) params["category__slug"] = selectedCategory;
+        if (selectedBrand) params["brand__slug"] = selectedBrand;
+        if (priceRange[0] !== null) params["price__gte"] = priceRange[0];
+        if (priceRange[1] !== null) params["price__lte"] = priceRange[1];
+        if (searchQuery) params["search"] = searchQuery; // ✅ for header search
 
-      if (sortOption === "price_low") params["ordering"] = "price";
-      else if (sortOption === "price_high") params["ordering"] = "-price";
-      else if (sortOption === "newest") params["ordering"] = "-created_at";
+        if (sortOption === "price_low") params["ordering"] = "price";
+        else if (sortOption === "price_high") params["ordering"] = "-price";
+        else if (sortOption === "newest") params["ordering"] = "-created_at";
 
-      const data = await getProducts(params, currentPage);
+        const data = await getProducts(params, currentPage);
 
-      setProducts(data.results || []);
-      setTotalPages(data.total_pages || 1);
-      setCurrentPage(data.current || 1);
+        setProducts(data.results || []);
+        setTotalPages(data.total_pages || 1);
+        setCurrentPage(data.current || 1);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchProducts();
@@ -289,7 +295,15 @@ const ProductPage = () => {
 
             {/* Product Grid */}
             <div className="grid gap-6 grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 min-h-[300px]">
-              {products.length > 0 ? (
+              {loading ? (
+                Array(6).fill(0).map((_, index) => (
+                  <div key={index} className="animate-pulse">
+                    <div className="bg-gray-200 h-64 rounded-lg mb-4"></div>
+                    <div className="bg-gray-200 h-4 rounded w-3/4 mb-2"></div>
+                    <div className="bg-gray-200 h-4 rounded w-1/2"></div>
+                  </div>
+                ))
+              ) : products.length > 0 ? (
                 products.map((product, index) => (
                   <ProductCard key={product.id || index} product={product} />
                 ))
