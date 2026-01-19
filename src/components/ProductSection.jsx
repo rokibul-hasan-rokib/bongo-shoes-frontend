@@ -9,7 +9,7 @@ import {
 import ProductCard from "./ProductCard";
 
 
-const ProductSection = ({ title, subtitle, products })=> {
+const ProductSection = ({ title, subtitle, products, loading })=> {
 
 
   return (
@@ -22,7 +22,16 @@ const ProductSection = ({ title, subtitle, products })=> {
           <p className="text-xl text-gray-600">{subtitle}</p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-             {products.length > 0 ? (
+             {loading ? (
+                    // Loading skeleton
+                    Array(4).fill(0).map((_, index) => (
+                      <div key={index} className="animate-pulse">
+                        <div className="bg-gray-200 h-64 rounded-lg mb-4"></div>
+                        <div className="bg-gray-200 h-4 rounded w-3/4 mb-2"></div>
+                        <div className="bg-gray-200 h-4 rounded w-1/2"></div>
+                      </div>
+                    ))
+                ) : products.length > 0 ? (
                     products.map((product, index) => (
                     <ProductCard key={product.id || index } product={product} />
                     ))

@@ -15,12 +15,16 @@ import BrandSection from "../components/BrandSection";
 const HomePage = () => {
   const [newArrivals,SetNewArrivals]=useState([]);
   const [featuredProducts,setFeaturedProduct]=useState([])
+  const [loading, setLoading] = useState(true);
 
    useEffect(() => {
       const fetchData = async () => {
-        SetNewArrivals(await getNewArrivals());
-        setFeaturedProduct(await getFeaturedProducts());
-
+        try {
+          SetNewArrivals(await getNewArrivals());
+          setFeaturedProduct(await getFeaturedProducts());
+        } finally {
+          setLoading(false);
+        }
       };
       fetchData();
     }, []);
@@ -38,6 +42,7 @@ const HomePage = () => {
         title="Featured Products"
         subtitle="Handpicked favorites from our collection"
         products={featuredProducts}
+        loading={loading}
       />
 
       {/* New Arrivals */}
@@ -45,6 +50,7 @@ const HomePage = () => {
         title="New Arrivals"
         subtitle="Latest additions to our collection"
         products={newArrivals}
+        loading={loading}
       />
       {/* Top Sell */}
       {/* <ProductSection
